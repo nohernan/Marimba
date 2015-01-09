@@ -1,0 +1,14 @@
+States = 4
+
+Transitions = [[0, 1, 0, 0], [0, 0.01, 0.01, 0.98], [1, 0, 0, 0], [0, 0, 0, 1]]
+
+Labelling = [[""],["try"],["fail"],["succ"]]
+
+Observations = "1"
+
+ObsProb = [[1], 
+	   [1], 
+	   [1], 
+	   [1]]
+
+Initial = [0, 0, 0, 1]

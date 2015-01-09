@@ -1,0 +1,11 @@
+Formulas taken from "Mathematical Techniques for Analyzing Concurrent and Probabilistic Systems (CRM Monograph
+Series)" by Rutten, J. J. M. M., Kwiatkowska, M., Norman, G. and Parker, D. American Mathematical Society. 2004.
+
+P[>=0.9](X_{1}(~try v succ))
+
+P[>0.98] (T U 2 succ)
+
+P[>0.99](try U succ)
+
+
+(We can see that POCTL* is an extension of PCTL)

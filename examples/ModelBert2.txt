@@ -1,0 +1,7 @@
+Here are the examples used in the paper "A model checking tool for POCTL* and its application to a human-robot handover task" by Hernandez, N., Eder, K., Magid, E., Savage, J. and Rosenblueth, D. A.
+
+P[>=0.9] (rh ^ (rh U (ug ^ ug U rnh)))
+
+P[>0.88] (X_{3,4,6}(X_{3,4,6}(X_{3,4,11}(X_{3,4,11}T))))
+
+P[<0.05] (rh ^ X_{1,2,3,4,5,6,7,8,9,10,11,12,13}(rnh v rpu))
