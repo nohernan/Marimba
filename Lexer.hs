@@ -23,28 +23,27 @@ import Data.Char
 -- Aliases of some primitive types
 type Atom   = String
 type Obser  = [Int]
-type States = Int
+type Length = Int
 
 -- Datatype for the tokens in which the HMM is broken into
-data Token = SetSt States -- No of states
-             | SetObs Obser -- Set of observations
-             | Rsv WordRsv -- Reserved words
-             | ODef -- = symbol
-             | Lista [Double] -- Transition probability matrix
-             | ListDouble [Double] -- Observation matrix
-             | ListAtom [[Atom]] -- Labelling function
+data Token = SetL Length 		-- No of states
+             | Rsv WordRsv 		-- Reserved words
+             | ODef 			-- '=' symbol
+             | Lista [Double] 		-- Transition probability matrix
+             | ListDouble [Double] 	-- Observation matrix
+             | ListAtom [[Atom]] 	-- Labelling function
                deriving Show                        
                         
 -- Datatype for the tokens of POCTL*
 data TknPOCTL = Ttrue 
               | Ffalse 
               | AProp Atom 
-              | LogOp ProLOp -- Propositional logic operators
-              | TempOp TempOp -- Temporal operators
-              | Comp String -- Comparison operators
-              | NextObs Obser -- observation attached to the next operator
-              | Range Double -- The treshold of the probabilistic operator
-              | UBound Int -- The integer number that bounds the Unitl operator
+              | LogOp ProLOp 	-- Propositional logic operators
+              | TempOp TempOp 	-- Temporal operators
+              | Comp String 	-- Comparison operators
+              | NextObs Obser 	-- observation attached to the next operator
+              | Range Double 	-- The treshold of the probabilistic operator
+              | UBound Int 	-- The integer number that bounds the Unitl operator
               | ProbOp
               | LeftPar 
               | RightPar 
@@ -76,17 +75,9 @@ lexer ('=':rmndr) = ODef : lexer rmndr
 -- represents the number of states
 lexer (c:left) 
   | isAlpha c = lexIdRsv (c:left)
-  | isDigit c = SetSt (read tmp::Int) : lexer newLeft    
+  | isDigit c = SetL (read tmp::Int) : lexer newLeft    
   where 
     (tmp, newLeft) = break (not . isDigit) (c:left)
-    
--- We're about to read the set of observations 
-lexer ('"':rmndr) = SetObs [1..(read tmp)] : lexer newRmndr 
-  where
-    (tmp, xs) = break (=='"') rmndr
-    newRmndr  = if null xs 
-                then error "Unable to generate token. Problem reading the number of observations." 
-                else tail xs
     
 -- Now we read the labelling function
 lexer ('[':'[':'"':remainder) = ListAtom lst : lexer newRemainder 

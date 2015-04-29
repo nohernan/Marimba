@@ -38,7 +38,7 @@ parse t b = createHMM t b dummyHMM
 -- new element of the HMM is made up
 createHMM :: [Token] -> Bool -> HMM -> HMM
 createHMM [] _ hmm = hmm
-createHMM ((Rsv St): ODef : (SetSt n): moreTokens) bool hmm 
+createHMM ((Rsv St): ODef : (SetL n): moreTokens) bool hmm 
   | n <= 0 = error "The number of states must be a positive integer."
   | otherwise = createHMM moreTokens bool newHMM
   where
@@ -73,12 +73,12 @@ createHMM ((Rsv Lbl): ODef : (ListAtom lstAtom): moreTokens) bool hmm
                     pObsHMM = pObsHMM hmm,                
                     initDiHMM = initDiHMM hmm}
     n = rangeSize (bounds st)
-createHMM ((Rsv Obs): ODef : (SetObs obs): moreTokens) bool hmm = createHMM moreTokens bool newHMM 
+createHMM ((Rsv Obs): ODef : (SetL obs): moreTokens) bool hmm = createHMM moreTokens bool newHMM 
   where        
     newHMM = HMM {statesHMM = statesHMM hmm,
                   pTransHMM = pTransHMM hmm,                
                   labelFHMM = labelFHMM hmm,                
-                  obsHMM = obs,                
+                  obsHMM = [1..obs],                
                   pObsHMM = pObsHMM hmm,                
                   initDiHMM = initDiHMM hmm}
 createHMM ((Rsv ObsProb): ODef : (ListDouble lstDouble):moreTokens) bool hmm 

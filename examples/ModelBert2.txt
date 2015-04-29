@@ -1,4 +1,4 @@
-Here are the examples used in the paper "A model checking tool for POCTL* and its application to a human-robot handover task" by Hernandez, N., Eder, K., Magid, E., Savage, J. and Rosenblueth, D. A.
+Here are the examples used in the paper "Marimba: A Tool for Verifying Properties of Hidden Markov Models" by Hernandez, N., Eder, K., Magid, E., Savage, J. and Rosenblueth, D. A.
 
 P[>=0.9] (rh ^ (rh U (ug ^ ug U rnh)))
 

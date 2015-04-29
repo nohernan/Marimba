@@ -1,3 +1,5 @@
-POCTL* formula appearing in Zhang's master thesis
+POCTL* formula appearing in Zhang's master thesis: Zhang, L. Logic and Model Checking for Hidden Markov Models. Master’s thesis,
+Saarland University, Germany. March 2004.
+
 
 (~b) ^ P[<0.05] (a U (X_{1}b))

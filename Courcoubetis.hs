@@ -671,6 +671,6 @@ vectProbUU :: Eq a =>  DTMC (Courcou (a, Int))    -- The current DTMC
                        -> Array Int Double        -- The array with the probabilities that each state satisfies the until formula
 vectProbUU mC sY sQ = listArray (1, length myL) myL 
   where
-    myL = case unsafePerformIO (solveRationalLinearEqs z3 (aMat mC sQ) (bCol mC sY)) of 
+    myL = case unsafePerformIO (solveRationalLinearEqs Z3 (aMat mC sQ) (bCol mC sY)) of 
                         Just xs   -> map (\r->fromRational r) xs 
                         otherwise -> error "There are no solutions of the linear equation system"

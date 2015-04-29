@@ -1,40 +1,64 @@
-README
-Marimba is a model checker for HMMs whose specification language is the logic POCTL*. Marimba is also the name of a musical instrument popular in southeast Mexico and Central America, it is similar to a xylophone.
+NOTE: We strongly recommend you to look for the user's manual and installation instruction documents in Marimba's folder. Such documents contain more detailed information than this README file.
+
+Marimba is a model checker for hidden Markov models (HMMs) whose specification language is the logic POCTL* [4,5]. Marimba is also the name of a musical instrument popular in southeast Mexico and Central America, it is similar to a xylophone.
 
 Our model checker, i.e., Marimba, is coded in Haskell and consists of six modules: 
-	Courcoubetis.hs
-	DirectApproach.hs
-	Lexer.hs
-	Main.hs
-	ModelChecker.hs
-	Parser.hs
 
-Marimba starts by loading the Main.hs module that contains the function main, which is called to initiate the model checker. Next, the sentence: 'Enter the file name where the HMM is located.' is shown and the program waits for a .poctl file to be passed to it.
+-Courcoubetis.hs
+-DirectApproach.hs
+-Lexer.hs
+-Main.hs
+-ModelChecker.hs
+-Parser.hs
 
-The six elements of an HMM have to be defined within the .poctl file. We use the reserved words: "States", "Transitions", "Observations", "ObsProb", "Labelling" and "Initial", to define the set of states, the transition probability matrix, the set of observations, the observation probability matrix, the labelling function and the initial distribution, respectively. Moreover, in the .poctl file the sets of states and observations are given as integer numbers representing their size, the probability matrices for the state transitions and the observation distributions are expressed as lists of lists of double values, the labelling function is a list of lists of strings (letters only), and the initial distribution is a list of double values. We require the definition of the number of states (identified by the reserved word States) to be the first element defined within the .poctl file. Likewise, the number of observations (an integer enclosed by quotation marks, and identified by the reserved word Observations) has to be defined before the observation probability matrix. Apart from these two constraints, the rest of the HMM elements can be defined regardless of their position within the .poctl file. For example, consider the following Model.poctl file:
+How to use Marimba
+Marimba starts by loading the Main.hs module that contains the function main, which is called to start the model checker. Next, some GNU licensing text is shown, as well as the sentence: Enter the file name where the HMM is located. as is shown below. The program now waits for a .poctl file to be passed to it.
 
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+=====================================================================
+Prelude> :l Main.hs
+
+*Main> main
+
+Marimba  Copyright (C) 2014  Noe Hernandez
+This program comes with ABSOLUTELY NO WARRANTY. This is free software,
+and you are welcome to redistribute it under certain conditions.
+For details see the COPYING file enclosed with the source code.
+
+Enter the file name where the HMM is located.
+=====================================================================
+
+
+The six elements of an HMM have to be defined within a .poctl file. We use the reserved words: States, Transitions, Observations, ObsProb, Labelling and Initial, to define the set of states, the transition probability matrix, the set of observations, the observation probability matrix, the labelling function and the initial distribution, respectively. Moreover, in the .poctl file the sets of states and observations are given as integer numbers representing their size, the probability matrices for the state transitions and the observation distributions are expressed as lists of lists of double values, the labelling function is a list of lists of strings (letters only), and the initial distribution is a list of double values. We require the definition of the number of states (identified by the reserved word States) to be the first element defined within the .poctl file. Likewise, the number of observations (an integer identified by the reserved word Observations) has to be defined before the observation probability matrix. Apart from these two constraints, the rest of the HMM elements can be defined regardless of their position within the .poctl file. For example, consider the ModelChef.poctl file found in the examples folder, and depicted below. This model is defined in detail in Chapter 1 of [1], and describes a chef's mood variations with time where the main courses he or she cooks are considered as observations of the HMM.
+
+=====================================================================
 States = 2
 
 Transitions = [[0.7, 0.3], [0.4, 0.6]]
 
 Labelling = [["c"],["d"]]
 
-Observations = "3"
+Observations = 3
 
 ObsProb = [[0.5, 0.3, 0.2], 
-	   [0.1, 0.6, 0.3]]
+           [0.1, 0.6, 0.3]]
 
 Initial = [0.6, 0.4]
-- - - - - - - - - - - - - - - - - Model.poctl - - - - - - - - - - - - - - - - -
+=====================================================================
 
-Observe that in this case the set of states is {1, 2}. In general, if States = n, the set of states is {1, 2, ..., n}. Likewise, if Observations = "m", the set of observations is {1, 2, ..., m}.
+Observe that in this case the set of states is {1, 2}. In general, if States = n, the set of states is {1, 2, ..., n}. Likewise, if Observations = m, the set of observations is {1, 2, ..., m}. When asked for a file where an HMM is located, we might answer 
 
-When the tool asks for a file where the HMM is located, we might answer 'Model.poctl'. Then, Marimba asks 'Would you like to consider each state as if it were the initial state, i.e., as if it had initial distribution value equal to 1? y/n:'. If the answer is 'y', Marimba regards each state as if it were the one the system starts from, and computes the probability of satisfaction accordingly. If the answer is 'n', Marimba computes the probability of satisfaction of each state by taking into account the likelihood that such state is initially chosen.
+'Enter the file name where the HMM is located.
+examples/ModelChef.poctl'
 
-Next, the model checker requests a POCTL* state formula by printing: 'Enter the POCTL* formula we are interested in.'
 
-To type POCTL* formulas, we associate to each grammar's terminal symbol a more natural encoding as shown below:
+Then, Marimba asks: 'Would you like to consider each state as if it were the initial state, i.e., as if it had initial distribution value equal to 1? y/n:'. If the answer is 'y', Marimba regards each state as if it were the one the system starts from, and computes the probability of satisfaction accordingly. If the answer is 'n', Marimba computes the probability of satisfaction of each state by taking into account the likelihood that such a state is initially chosen as specified by the initial distribution. Let us say that we answer this question with 'y'.
+
+Next, the model checker requests a POCTL* state formula by printing
+
+'Enter the POCTL* formula we are interested in.'
+
+
+To type POCTL* formulas, we associate to each grammar's terminal symbol a natural encoding as shown below:
 
 ==== Terminal Symbol ====	==== New encoding ====
 Boolean value true		Reserved letter T
@@ -43,39 +67,75 @@ Atomic proposition		Sequence of non-reserved letters
 Negation operator 		Symbol ~
 Disjunction operator		Reserved letter v
 Conjunction operator		Symbol ^
-Probabilistic operator		P[@ p], where P is a reserved letter; @ is <, 
-				<=, >= or >; and 0 <= p <= 1
-Next operator			X_{m1,...,mi}, where X is a reserved letter, 
-				and {m1,...,mi} is a set of observations, i.e., 
-				integer numbers, such that every element lies 
-				within the interval from 1 to the value defined
-				by Observations in the .poctl file
-Bounded until operator		U n, where U is a reserved letter, and n is a 
-				non-negative integer
+Probabilistic operator		P[@ p], where P is a reserved letter
+Next operator			X_{m1,...,mi}, where X is a reserved letter
+Bounded until operator		U n, where U is a reserved letter
 Unbounded until operator	Reserved letter U
 Left parenthesis		Symbol (
 Right parenthesis		Symbol )
+======================================================
 
-Thus, after the tool requests a formula to verify, we might type: '~c ^ P[>0.05](X_{1,3}d)'. The model checking algorithm is executed on the already passed HMM and the POCTL* formula. If the specification involves the probabilistic operator, Marimba prints an intermediate result in parentheses consisting of a list with the probabilities of each state satisfying the argument of the probabilistic operator. Finally, Marimba returns the list of states satisfying the whole formula. The output for the particular example given above is:
 
-'The states that satisfy it are:
-(Probability of satisfaction of each state: [0.126,9.6e-2])
-[2]'
+Observe that,
+-The encoding of the comparison symbol @ can take any of the values <, <=, >= or >.
+-For the threshold double value p used by the probabilistic operator, the inequality 0 <= p <= 1 holds.
+-Since we are considering the observations as integer numbers from 1 to the value of Observations defined in ModelChef.poctl, every element in the subset of observations {m_1,...,m_i}, attached to the next operator, also lies within this interval.
+-The bound n used in the bounded until operator is a non-negative integer.
 
-Therefore, only state 2 of the HMM defined in 'Model.poctl' satisfies the formula '~c ^ P[>0.05](X_{1,3}d)'.
+Thus, when asked for a formula to verify, we might type:
 
-Afterwards, Marimba asks whether the user wants to keep verifying properties. It prints: 'Do you want to continue checking more specifications? y/n:'. If the answer is 'y', the program waits for a new formula to be entered. If we respond with an 'n', the tool finishes.
+'Enter the POCTL* formula we are interested in.
+P[>= 0.3]((d ^ ~X_{1}T) U 10 (c ^ X_{1}T))'
+
+which indicates that with probability at least 0.3 the chef will be upset up to the day he/she cooks steak, such a day could be today or any of the next ten days (see the example located in Subsection 2.4 of the user's manual for further details).
+
+The model checking algorithm is executed on the already passed HMM and this POCTL* formula. If the specification involves the probabilistic operator, Marimba prints an intermediate result in parentheses consisting of a list with the probabilities of each state satisfying the argument of the probabilistic operator. Finally, Marimba returns the list of states satisfying the input formula. The output for the particular HMM and POCTL* formula given above is:
+
+=====================================================================
+The states that satisfy it are:
+(Probability of satisfaction of each state: [0.5,0.39047935101157205])
+[1,2]
+=====================================================================
+
+Therefore, states 1 and 2 of the HMM defined in ModelChef.poctl satisfy the given formula.
+
+Afterwards, Marimba asks whether the user wants to keep verifying properties on this same model. It prints: 'Do you want to continue checking more specifications? y/n:'. If the answer is 'y', the program waits for a new formula to be entered. If we respond with an 'n', the tool finishes.
+
+
+
+EXAMPLES
+In the examples folder enclosed with the Marimba's source code we find several instances of hidden Markov models and POCTL* specifications that were verified with our tool. Thorough explanations are given in the user's manual.
+
 
 
 AUTHORS
 Noe Hernandez	no.hernan@gmail.com
 		no_hernan@ciencias.unam.mx
+		nohernan@turing.iimas.unam.mx
 
 
-INSTALL	
-To run Marimba the GHCi compiler is used. We recommend to run the GHCi interactive environment within the GNU Emacs text editor. Notice that you must have the Z3 theorem prover (version 4.3.2 or later) installed since it is used in the module Courcoubetis.hs by the linearEqSolver library, which is invoked to solve a linear equation system.
-	
+
+INSTALLATION
+An installation document comes together with the source code of Marimba. 
+
+
 
 COPYING / LICENSE
-Marimba is free software distributed under the GNU General Public License.
+Marimba is free software distributed under the GNU General Public License. A copy of such a license is included in Marimba's source code in the COPYING file.
 
+
+
+REFERENCES
+[1] N. Hernández. Model checking based on the hidden Markov model and its application to human-robot
+interaction. Master’s thesis, Universidad Nacional Autónoma de México, México, 2014. Available from
+http://132.248.9.195/ptd2014/noviembre/303087692/Index.html.
+[2] N. Hernández, K. Eder, E. Magid, J. Savage, and D. Rosenblueth. Marimba: A tool for verifying
+properties of hidden Markov models, 2015.
+[3] J. Rutten, M. Kwiatkowska, G. Norman, and D. Parker. Mathematical Techniques for Analyzing
+Concurrent and Probabilistic Systems, P. Panangaden and F. van Breugel (eds.), volume 23 of CRM
+Monograph Series. American Mathematical Society, 2004.
+[4] L. Zhang. Logic and model checking for hidden Markov models. Master’s thesis, Saarland University,
+Germany, 2004.
+[5] L. Zhang, H. Hermanns, and D. N. Jansen. Logic and model checking for hidden Markov models. In
+Formal Techniques for Networked and Distributed Systems - 25th International Conference, volume
+3731 of Lecture Notes in Computer Science, pages 98–112. Springer, 2005.
