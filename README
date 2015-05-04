@@ -1,4 +1,4 @@
-NOTE: We strongly recommend you to look for the user's manual and installation instruction documents in Marimba's folder. Such documents contain more detailed information than this README file.
+NOTE: We strongly recommend you to look at the user's manual and installation instruction document in Marimba's folder. Such documents contain more detailed information than this README file.
 
 Marimba is a model checker for hidden Markov models (HMMs) whose specification language is the logic POCTL* [4,5]. Marimba is also the name of a musical instrument popular in southeast Mexico and Central America, it is similar to a xylophone.
 
