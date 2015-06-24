@@ -1,4 +1,4 @@
-The model in ModelChef.poctl and the formulas below are based on the HMM described in detail in Chapter 1 of Model checking based on the hidden Markov model and its application to human-robot interaction} by Hernandez, N. Master’s thesis, Universidad Nacional Autonoma de Mexico, Mexico. December 2014. Available from http://132.248.9.195/ptd2014/noviembre/303087692/Index.html.
+The model in ModelChef.hmm and the formulas below are based on the HMM described in detail in Chapter 1 of Model checking based on the hidden Markov model and its application to human-robot interaction by Hernandez, N. Master’s thesis, Universidad Nacional Autonoma de Mexico, Mexico. December 2014. Available from http://132.248.9.195/ptd2014/noviembre/303087692/Index.html. Note that in such a thesis the extension used for Marimba's input file was .poctl; however, we realised here that an extension .hmm for the input file is more appropriate.
 
 P[>= 0.3]((d ^ ~X_{1}T) U 10 (c ^ X_{1}T))
 

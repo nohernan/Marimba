@@ -12,7 +12,7 @@ Our model checker, i.e., Marimba, is coded in Haskell and consists of six module
 -Parser.hs
 
 How to use Marimba
-Marimba starts by loading the Main.hs module that contains the function main, which is called to start the model checker. Next, some GNU licensing text is shown, as well as the sentence: Enter the file name where the HMM is located. as is shown below. The program now waits for a .poctl file to be passed to it.
+Marimba starts by loading the Main.hs module that contains the function main, which is called to start the model checker. Next, some GNU licensing text is shown, as well as the sentence: Enter the file name where the HMM is located. as is shown below. The program now waits for a .hmm file to be passed to it.
 
 =====================================================================
 Prelude> :l Main.hs
@@ -28,7 +28,7 @@ Enter the file name where the HMM is located.
 =====================================================================
 
 
-The six elements of an HMM have to be defined within a .poctl file. We use the reserved words: States, Transitions, Observations, ObsProb, Labelling and Initial, to define the set of states, the transition probability matrix, the set of observations, the observation probability matrix, the labelling function and the initial distribution, respectively. Moreover, in the .poctl file the sets of states and observations are given as integer numbers representing their size, the probability matrices for the state transitions and the observation distributions are expressed as lists of lists of double values, the labelling function is a list of lists of strings (letters only), and the initial distribution is a list of double values. We require the definition of the number of states (identified by the reserved word States) to be the first element defined within the .poctl file. Likewise, the number of observations (an integer identified by the reserved word Observations) has to be defined before the observation probability matrix. Apart from these two constraints, the rest of the HMM elements can be defined regardless of their position within the .poctl file. For example, consider the ModelChef.poctl file found in the examples folder, and depicted below. This model is defined in detail in Chapter 1 of [1], and describes a chef's mood variations with time where the main courses he or she cooks are considered as observations of the HMM.
+The six elements of an HMM have to be defined within a .hmm file. We use the reserved words: States, Transitions, Observations, ObsProb, Labelling and Initial, to define the set of states, the transition probability matrix, the set of observations, the observation probability matrix, the labelling function and the initial distribution, respectively. Moreover, in the .hmm file the sets of states and observations are given as integer numbers representing their size, the probability matrices for the state transitions and the observation distributions are expressed as lists of lists of double values, the labelling function is a list of lists of strings (letters only), and the initial distribution is a list of double values. We require the definition of the number of states (identified by the reserved word States) to be the first element defined within the .hmm file. Likewise, the number of observations (an integer identified by the reserved word Observations) has to be defined before the observation probability matrix. Apart from these two constraints, the rest of the HMM elements can be defined regardless of their position within the .hmm file. For example, consider the ModelChef.hmm file found in the examples folder, and depicted below. This model is defined in detail in Chapter 1 of [1], and describes a chef's mood variations with time where the main courses he or she cooks are considered as observations of the HMM.
 
 =====================================================================
 States = 2
@@ -48,7 +48,7 @@ Initial = [0.6, 0.4]
 Observe that in this case the set of states is {1, 2}. In general, if States = n, the set of states is {1, 2, ..., n}. Likewise, if Observations = m, the set of observations is {1, 2, ..., m}. When asked for a file where an HMM is located, we might answer 
 
 'Enter the file name where the HMM is located.
-examples/ModelChef.poctl'
+examples/ModelChef.hmm'
 
 
 Then, Marimba asks: 'Would you like to consider each state as if it were the initial state, i.e., as if it had initial distribution value equal to 1? y/n:'. If the answer is 'y', Marimba regards each state as if it were the one the system starts from, and computes the probability of satisfaction accordingly. If the answer is 'n', Marimba computes the probability of satisfaction of each state by taking into account the likelihood that such a state is initially chosen as specified by the initial distribution. Let us say that we answer this question with 'y'.
@@ -79,7 +79,7 @@ Right parenthesis		Symbol )
 Observe that,
 -The encoding of the comparison symbol @ can take any of the values <, <=, >= or >.
 -For the threshold double value p used by the probabilistic operator, the inequality 0 <= p <= 1 holds.
--Since we are considering the observations as integer numbers from 1 to the value of Observations defined in ModelChef.poctl, every element in the subset of observations {m_1,...,m_i}, attached to the next operator, also lies within this interval.
+-Since we are considering the observations as integer numbers from 1 to the value of Observations defined in ModelChef.hmm, every element in the subset of observations {m_1,...,m_i}, attached to the next operator, also lies within this interval.
 -The bound n used in the bounded until operator is a non-negative integer.
 
 Thus, when asked for a formula to verify, we might type:
@@ -97,7 +97,7 @@ The states that satisfy it are:
 [1,2]
 =====================================================================
 
-Therefore, states 1 and 2 of the HMM defined in ModelChef.poctl satisfy the given formula.
+Therefore, states 1 and 2 of the HMM defined in ModelChef.hmm satisfy the given formula.
 
 Afterwards, Marimba asks whether the user wants to keep verifying properties on this same model. It prints: 'Do you want to continue checking more specifications? y/n:'. If the answer is 'y', the program waits for a new formula to be entered. If we respond with an 'n', the tool finishes.
 
