@@ -129,8 +129,8 @@ REFERENCES
 [1] N. Hernández. Model checking based on the hidden Markov model and its application to human-robot
 interaction. Master’s thesis, Universidad Nacional Autónoma de México, México, 2014. Available from
 http://132.248.9.195/ptd2014/noviembre/303087692/Index.html.
-[2] N. Hernández, K. Eder, E. Magid, J. Savage, and D. Rosenblueth. Marimba: A tool for verifying
-properties of hidden Markov models, 2015.
+[2] N. Hernández, K. Eder, E. Magid, J. Savage, and D. A. Rosenblueth. Marimba: A tool for verifying properties of hidden Markov models. 
+In: Finkbeiner, B., Pu, G., Zhang, L. (eds.) ATVA 2015. LNCS, vol. 9364, pp. 201-206. Springer, Heidelberg (2015). 
 [3] J. Rutten, M. Kwiatkowska, G. Norman, and D. Parker. Mathematical Techniques for Analyzing
 Concurrent and Probabilistic Systems, P. Panangaden and F. van Breugel (eds.), volume 23 of CRM
 Monograph Series. American Mathematical Society, 2004.
